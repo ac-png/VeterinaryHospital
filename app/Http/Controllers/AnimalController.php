@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Animal;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class AnimalController extends Controller
 {
@@ -13,7 +15,18 @@ class AnimalController extends Controller
      */
     public function index()
     {
-        //
+          // Fetch All Animals, owned by the Logged in User, in order of when they were last updated - latest updated returned first, And you want the $books paginated.
+          // $animals = Animal::where('user_id', Auth::id())->latest('updated_at')->paginate(10);
+
+          // Fetch All Animals(not just belonging to the logged in user) and add pagination.
+          $animals = Animal::paginate(10);
+
+          // Fetch All Animals, no pagination.
+          //$animals = Animal::all();
+
+          // Something not working - unccoment the line below to dump all the books onto the screen to help you troubleshoot.
+          //   dd($animals);
+          return view('animals.index')->with('animals', $animals);
     }
 
     /**

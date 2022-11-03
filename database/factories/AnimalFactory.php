@@ -17,7 +17,10 @@ class AnimalFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'name' => $this->faker->name,
+            'type' => $this->faker->text(50),
+            'notes' => $this->faker->text(200),
+            'veterinarian' => $this->faker->name
         ];
     }
 }
