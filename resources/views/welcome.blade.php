@@ -29,7 +29,7 @@
                 </div>
             @endif
             <h1 class="text-5xl">
-                VeterinaryHospital
+                Veterinary Hospital
             </h1>
         </div>
     </body>

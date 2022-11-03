@@ -56,9 +56,19 @@ class AnimalController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Animal $animal)
     {
-        //
+        // Use the code below if you want the user to only be able to view books that they own.
+        //  if($animal->user_id != Auth::id()) {
+        //     return abort(403);
+        // }
+
+        if(!Auth::id()) {
+            return abort(403);
+          }
+ 
+         //this function is used to get a animal by the ID.
+         return view('animals.show')->with('animal', $animal);
     }
 
     /**
