@@ -20,7 +20,7 @@ class AnimalController extends Controller
           // $animals = Animal::where('user_id', Auth::id())->latest('updated_at')->paginate(10);
 
           // Fetch All Animals(not just belonging to the logged in user) and add pagination.
-          $animals = Animal::paginate(10);
+          $animals = Animal::latest('updated_at')->paginate(10);
 
           // Fetch All Animals, no pagination.
           //$animals = Animal::all();
