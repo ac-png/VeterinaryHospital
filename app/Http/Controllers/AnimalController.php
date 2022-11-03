@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Animal;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 
 class AnimalController extends Controller
 {
@@ -37,6 +38,7 @@ class AnimalController extends Controller
     public function create()
     {
         //
+        return view('animals.create');
     }
 
     /**
@@ -48,6 +50,24 @@ class AnimalController extends Controller
     public function store(Request $request)
     {
         //
+        // for more validation rules check out https://laravel.com/docs/9.x/validation
+        $request->validate([
+            'name' => 'required|max:100',
+            'type' => 'required|max:100',
+            'veterinarian' =>'required|max:100',
+            'notes' => 'required|max:500'
+        ]);
+
+        Animal::create([
+            // Ensure you have the use statement for
+            // Illuminate\Support\Str at the top of this file.
+            'name' => $request->name,
+            'type' => $request->type,
+            'veterinarian' => $request->veterinarian,
+            'notes' => $request->notes
+        ]);
+
+        return to_route('animals.index');
     }
 
     /**
