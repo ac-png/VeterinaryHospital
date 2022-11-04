@@ -97,9 +97,9 @@ class AnimalController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Animal $animal)
     {
-        //
+        return view('animals.edit')->with('animal', $animal);
     }
 
     /**
@@ -109,9 +109,25 @@ class AnimalController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Animal $animal)
     {
-        //
+        // dd($request);
+        // This function is quite like the store() function.
+        $request->validate([
+            'name' => 'required|max:100',
+            'type' => 'required|max:100',
+            'veterinarian' =>'required|max:100',
+            'notes' => 'required|max:500'
+        ]);
+
+        $animal->update([
+            'name' => $request->name,
+            'type' => $request->type,
+            'veterinarian' => $request->veterinarian,
+            'notes' => $request->notes
+        ]);
+
+        return to_route('animals.show', $animal)->with('success','Animal updated successfully');
     }
 
     /**
