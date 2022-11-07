@@ -2,11 +2,11 @@
 
 namespace Database\Seeders;
 
-use App\Models\Animal;
+use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
-class AnimalSeeder extends Seeder
+class UserSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -15,7 +15,7 @@ class AnimalSeeder extends Seeder
      */
     public function run()
     {
-        // This adds 50 fake users to the Animals table
-        Animal::factory()->times(50)->create();
+        // This adds 50 fake users to the Users table
+        User::factory()->times(10)->create();
     }
 }

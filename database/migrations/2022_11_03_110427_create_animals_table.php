@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('animals', function (Blueprint $table) {
             $table->id();
-            // $table->uuid('uuid');
+            $table->uuid('uuid');
             // $table->foreignId('user_id')->constrained();
             $table->string('name');
             $table->string('type');

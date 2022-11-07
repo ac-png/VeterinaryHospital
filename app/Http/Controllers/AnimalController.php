@@ -48,6 +48,7 @@ class AnimalController extends Controller
         ]);
 
         Animal::create([
+            'uuid' => Str::uuid(),
             'name' => $request->name,
             'type' => $request->type,
             'veterinarian' => $request->veterinarian,
@@ -64,7 +65,7 @@ class AnimalController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show(Animal $animal)
-    {
+    {  
         if(!Auth::id()) {
             return abort(403);
           }
