@@ -40,8 +40,6 @@ class AnimalController extends Controller
      */
     public function store(Request $request)
     {
-        //
-        // for more validation rules check out https://laravel.com/docs/9.x/validation
         $request->validate([
             'name' => 'required|max:100',
             'type' => 'required|max:100',
@@ -50,8 +48,6 @@ class AnimalController extends Controller
         ]);
 
         Animal::create([
-            // Ensure you have the use statement for
-            // Illuminate\Support\Str at the top of this file.
             'name' => $request->name,
             'type' => $request->type,
             'veterinarian' => $request->veterinarian,
@@ -69,16 +65,10 @@ class AnimalController extends Controller
      */
     public function show(Animal $animal)
     {
-        // Use the code below if you want the user to only be able to view books that they own.
-        //  if($animal->user_id != Auth::id()) {
-        //     return abort(403);
-        // }
-
         if(!Auth::id()) {
             return abort(403);
           }
- 
-         //this function is used to get a animal by the ID.
+
          return view('animals.show')->with('animal', $animal);
     }
 
