@@ -16,7 +16,7 @@ class AnimalController extends Controller
      */
     public function index()
     {
-        // Paginate the most recent updated_at.
+        // Sorts the animals so the most recent updated_at is on top.
         $animals = Animal::latest('updated_at')->paginate(10);
           
         // Returns to the page with all the animals.
@@ -43,7 +43,7 @@ class AnimalController extends Controller
      */
     public function store(Request $request)
     {
-        // Validate if the request is valid.
+        // Validates if the request is valid.
         $request->validate([
             'name' => 'required|max:100',
             'type' => 'required|max:100',
@@ -75,7 +75,7 @@ class AnimalController extends Controller
         // If the id of the user does not mathch the note's user_id, returns a error screen.
         if(!Auth::id()) {
             return abort(403);
-          }
+        }
 
         // Returns to the single animal page.
         return view('animals.show')->with('animal', $animal);
@@ -102,7 +102,7 @@ class AnimalController extends Controller
      */
     public function update(Request $request, Animal $animal)
     {
-        // Validate if the request is valid.
+        // Validates if the request is valid.
         $request->validate([
             'name' => 'required|max:100',
             'type' => 'required|max:100',
@@ -110,7 +110,7 @@ class AnimalController extends Controller
             'notes' => 'required|max:500'
         ]);
 
-        // Update the animal's information.
+        // Updates the animal's information.
         $animal->update([
             'name' => $request->name,
             'type' => $request->type,
@@ -130,11 +130,11 @@ class AnimalController extends Controller
      */
     public function destroy(Animal $animal)
     {
-        // if(!$animal->user->is(Auth::user())) {
-        //     return abort(403);
-        // }
+        if(!Auth::id()) {
+            return abort(403);
+        }
 
-        // Deletes Animal.
+        // Deletes the animal.
         $animal->delete();
 
         // Returns to the page with the animals (without the deleted note).
