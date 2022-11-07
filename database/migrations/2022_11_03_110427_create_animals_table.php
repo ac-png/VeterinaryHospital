@@ -13,10 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
+        // Creates a new table in the database.
         Schema::create('animals', function (Blueprint $table) {
             $table->id();
             $table->uuid('uuid');
-            // $table->foreignId('user_id')->constrained();
             $table->string('name');
             $table->string('type');
             $table->text('notes');

@@ -16,9 +16,11 @@ class AnimalController extends Controller
      */
     public function index()
     {
-          $animals = Animal::latest('updated_at')->paginate(10);
+        // Paginate the most recent updated_at.
+        $animals = Animal::latest('updated_at')->paginate(10);
           
-          return view('animals.index')->with('animals', $animals);
+        // Returns to the page with all the animals.
+        return view('animals.index')->with('animals', $animals);
     }
 
     /**
@@ -28,7 +30,8 @@ class AnimalController extends Controller
      */
     public function create()
     {
-        //
+        
+        // Returns the create form for the annimals.
         return view('animals.create');
     }
 
@@ -40,6 +43,7 @@ class AnimalController extends Controller
      */
     public function store(Request $request)
     {
+        // Validate if the request is valid.
         $request->validate([
             'name' => 'required|max:100',
             'type' => 'required|max:100',
@@ -47,6 +51,7 @@ class AnimalController extends Controller
             'notes' => 'required|max:500'
         ]);
 
+        // Create a new animal.
         Animal::create([
             'uuid' => Str::uuid(),
             'name' => $request->name,
@@ -55,6 +60,7 @@ class AnimalController extends Controller
             'notes' => $request->notes
         ]);
 
+        // Returns to the page with all the animals.
         return to_route('animals.index');
     }
 
@@ -66,11 +72,13 @@ class AnimalController extends Controller
      */
     public function show(Animal $animal)
     {  
+        // If the id of the user does not mathch the note's user_id, returns a error screen.
         if(!Auth::id()) {
             return abort(403);
           }
 
-         return view('animals.show')->with('animal', $animal);
+        // Returns to the single animal page.
+        return view('animals.show')->with('animal', $animal);
     }
 
     /**
@@ -81,6 +89,7 @@ class AnimalController extends Controller
      */
     public function edit(Animal $animal)
     {
+        // Return the form for editing an animal.
         return view('animals.edit')->with('animal', $animal);
     }
 
@@ -93,8 +102,7 @@ class AnimalController extends Controller
      */
     public function update(Request $request, Animal $animal)
     {
-        // dd($request);
-        // This function is quite like the store() function.
+        // Validate if the request is valid.
         $request->validate([
             'name' => 'required|max:100',
             'type' => 'required|max:100',
@@ -102,6 +110,7 @@ class AnimalController extends Controller
             'notes' => 'required|max:500'
         ]);
 
+        // Update the animal's information.
         $animal->update([
             'name' => $request->name,
             'type' => $request->type,
@@ -109,6 +118,7 @@ class AnimalController extends Controller
             'notes' => $request->notes
         ]);
 
+        // Returns to the single animal page (with the updated data).
         return to_route('animals.show', $animal)->with('success','Animal updated successfully');
     }
 
@@ -124,8 +134,10 @@ class AnimalController extends Controller
         //     return abort(403);
         // }
 
+        // Deletes Animal.
         $animal->delete();
 
-        return to_route('animals.index')->with('success', 'Note deleted successfully');
+        // Returns to the page with the animals (without the deleted note).
+        return to_route('animals.index')->with('success', 'Animal deleted successfully');
     }
 }

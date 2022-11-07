@@ -11,6 +11,7 @@ class Animal extends Model
 
     protected $guarded = [];
 
+    // Where the url is the animal id, this changes it to the uuid.
     public function getRouteKeyName()
     {
         return 'uuid';  

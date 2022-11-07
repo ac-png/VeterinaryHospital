@@ -15,7 +15,7 @@ class AnimalSeeder extends Seeder
      */
     public function run()
     {
-        // This adds 50 fake users to the Animals table
+        // Creates 50 new animals (using the fake data).
         Animal::factory()->times(50)->create();
     }
 }

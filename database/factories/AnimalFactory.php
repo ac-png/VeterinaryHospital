@@ -16,8 +16,8 @@ class AnimalFactory extends Factory
      */
     public function definition()
     {
+        // Generates fake data for Animals table.
         return [
-            // These statements add fake data to the Animals table and states the type of data
             'uuid' => $this->faker->uuid(),
             'name' => $this->faker->name,
             'type' => $this->faker->word,
