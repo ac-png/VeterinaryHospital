@@ -24,4 +24,4 @@ Route::get('/dashboard', function () {
 
 Route::resource('/animals', AnimalController::class)->middleware(['auth']);
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';

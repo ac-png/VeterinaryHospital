@@ -19,7 +19,7 @@ class AnimalFactory extends Factory
         // Generates fake data for Animals table.
         return [
             'uuid' => $this->faker->uuid(),
-            'name' => $this->faker->name,
+            'name' => $this->faker->firstName,
             'type' => $this->faker->word,
             'notes' => $this->faker->text(200),
             'veterinarian' => $this->faker->name,
