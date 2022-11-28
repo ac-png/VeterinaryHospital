@@ -42,6 +42,7 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    // this function allows you do $user->roles which will return all the roles for that user
     public function roles()
     {
         return $this->belongsToMany('App\Models\Role', 'user_role');

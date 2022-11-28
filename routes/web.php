@@ -1,6 +1,8 @@
 <?php
 
-use App\Http\Controllers\AnimalController;
+use App\Http\Controllers\Admin\AnimalController as AdminAnimalController;
+use App\Http\Controllers\User\AnimalController as UserAnimalController;
+
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -22,6 +24,9 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::resource('/animals', AnimalController::class)->middleware(['auth']);
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home.index');
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
+
+Route::resource('/admin/animals', AdminAnimalController::class)->middleware(['auth'])->names('admin.animals');
+Route::resource('/user/animals', UserAnimalController::class)->middleware(['auth'])->names('user.books')->only(['index', 'show']);
