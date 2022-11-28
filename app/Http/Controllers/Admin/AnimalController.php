@@ -4,12 +4,13 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Animal;
-use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 
 class AnimalController extends Controller
 {
+
     /**
      * Display a listing of the resource.
      *
@@ -17,9 +18,9 @@ class AnimalController extends Controller
      */
     public function index()
     {
-        // Authorizes user roles.
-        $user = Auth::user();
-        $user->authorizeRoles('admin');
+        // Authorizes admin roles.
+        $admin = Auth::user();
+        $admin->authorizeRoles('admin');
 
         // Sorts the animals so the most recent updated_at is on top.
         $animals = Animal::latest('updated_at')->paginate(10);
@@ -35,25 +36,24 @@ class AnimalController extends Controller
      */
     public function create()
     {
-        // Authorizes user roles.
-        $user = Auth::user();
-        $user->authorizeRoles('admin');
+        // Authorizes admin roles.
+        $admin = Auth::user();
+        $admin->authorizeRoles('admin');
 
-        // Returns the create form for the annimals.
         return view('admin.animals.create');
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
-        // Authorizes user roles.
-        $user = Auth::user();
-        $user->authorizeRoles('admin');
+        // Authorizes admin roles.
+        $admin = Auth::user();
+        $admin->authorizeRoles('admin');
 
         // Validates if the request is valid.
         $request->validate([
@@ -72,23 +72,22 @@ class AnimalController extends Controller
             'notes' => $request->notes
         ]);
 
-        // Returns to the page with all the animals.
         return to_route('admin.animals.index');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\Models\Animal  $animal
      * @return \Illuminate\Http\Response
      */
     public function show(Animal $animal)
     {
-        // Authorizes user roles.
-        $user = Auth::user();
-        $user->authorizeRoles('admin');
+        // Authorizes admin roles.
+        $admin = Auth::user();
+        $admin->authorizeRoles('admin');
 
-        // If the id of the user does not mathch the note's user_id, returns a error screen.
+        // If the id of the admin does not mathch the note's admin_id, returns a error screen.
         if (!Auth::id()) {
             return abort(403);
         }
@@ -100,14 +99,14 @@ class AnimalController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\Models\Animal  $animal
      * @return \Illuminate\Http\Response
      */
     public function edit(Animal $animal)
     {
-        // Authorizes user roles.
-        $user = Auth::user();
-        $user->authorizeRoles('admin');
+        // Authorizes admin roles.
+        $admin = Auth::user();
+        $admin->authorizeRoles('admin');
 
         // Return the form for editing an animal.
         return view('admin.animals.edit')->with('animal', $animal);
@@ -116,15 +115,15 @@ class AnimalController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \App\Http\Requests\Request  $request
+     * @param  \App\Models\Animal  $animal
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Animal $animal)
     {
-        // Authorizes user roles.
-        $user = Auth::user();
-        $user->authorizeRoles('admin');
+        // Authorizes admin roles.
+        $admin = Auth::user();
+        $admin->authorizeRoles('admin');
 
         // Validates if the request is valid.
         $request->validate([
@@ -149,18 +148,14 @@ class AnimalController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  \App\Models\Animal  $animal
      * @return \Illuminate\Http\Response
      */
     public function destroy(Animal $animal)
     {
-        // Authorizes user roles.
-        $user = Auth::user();
-        $user->authorizeRoles('admin');
-
-        if (!Auth::id()) {
-            return abort(403);
-        }
+        // Authorizes admin roles.
+        $admin = Auth::user();
+        $admin->authorizeRoles('admin');
 
         // Deletes the animal.
         $animal->delete();
