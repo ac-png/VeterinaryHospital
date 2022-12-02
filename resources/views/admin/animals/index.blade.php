@@ -22,6 +22,7 @@
             @empty
                 <p>You have no notes</p>
             @endforelse
+                {{ $animals->links() }}
         </div>
     </div>
 </x-app-layout>
