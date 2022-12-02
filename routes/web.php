@@ -29,4 +29,4 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 require __DIR__ . '/auth.php';
 
 Route::resource('/admin/animals', AdminAnimalController::class)->middleware(['auth'])->names('admin.animals');
-Route::resource('/user/animals', UserAnimalController::class)->middleware(['auth'])->names('user.books')->only(['index', 'show']);
+Route::resource('/user/animals', UserAnimalController::class)->middleware(['auth'])->names('user.animals')->only(['index', 'show']);
