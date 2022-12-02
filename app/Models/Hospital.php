@@ -5,13 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Animal extends Model
+class Hospital extends Model
 {
-    protected $guarded = [];
     use HasFactory;
+    protected $fillable = ['name', 'address'];
 
-    public function hospital()
+    public function books()
     {
-        return $this->belongsTo(Hospital::class);
+        return $this->hasMany(Animal::class);
     }
 }

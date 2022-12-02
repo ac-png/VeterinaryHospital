@@ -18,7 +18,7 @@ class AnimalController extends Controller
     public function index()
     {
         // Sorts the animals so the most recent updated_at is on top.
-        $animals = Animal::latest('updated_at')->paginate(10);
+        $animals = Animal::latest('updated_at')->paginate(5);
 
         // Returns to the page with all the animals.
         return view('user.animals.index')->with('animals', $animals);
