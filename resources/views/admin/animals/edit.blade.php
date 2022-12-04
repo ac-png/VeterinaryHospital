@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            Edit {{ $animal->name }}
+            {{ __('Edit Book') }}
         </h2>
     </x-slot>
 
@@ -24,7 +24,7 @@
                         type="text"
                         name="type"
                         field="type"
-                        placeholder="Type..."
+                        placeholder="Type"
                         class="w-full mt-6"
                         :value="@old('type', $animal->type)"></x-text-input>
 
@@ -32,9 +32,26 @@
                         type="text"
                         name="veterinarian"
                         field="veterinarian"
-                        placeholder="Veterinarian..."
+                        placeholder="Veterinarian"
                         class="w-full mt-6"
                         :value="@old('veterinarian', $animal->veterinarian)"></x-text-input>
+
+                    <div class="w-full mt-6">
+                        <label for="hospital">Hospital</label>
+                        <select name="hospital_id">
+                            @foreach ($hospitals as $hospital)
+                            @if($hospital->id == $animal->hospital->id)
+                            <option value="{{$hospital->id}}" selected>
+                                {{$hospital->name}}
+                            </option>
+                            @else
+                            <option value="{{$hospital->id}}">
+                                {{$hospital->name}}
+                            </option>
+                            @endif
+                            @endforeach
+                        </select>
+                    </div>
 
                     <x-textarea
                         name="notes"

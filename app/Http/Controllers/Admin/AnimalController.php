@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Animal;
+use App\Models\Hospital;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
@@ -40,6 +41,10 @@ class AnimalController extends Controller
         $admin = Auth::user();
         $admin->authorizeRoles('admin');
 
+        $hospitals = Hospital::all();
+
+        return view('admin.animals.create')->with('hospitals', $hospitals);
+
         return view('admin.animals.create');
     }
 
@@ -57,10 +62,11 @@ class AnimalController extends Controller
 
         // Validates if the request is valid.
         $request->validate([
-            'name' => 'required|max:100',
-            'type' => 'required|max:100',
-            'veterinarian' => 'required|max:100',
-            'notes' => 'required|max:500'
+            'name' => 'required',
+            'type' => 'required',
+            'veterinarian' => 'required',
+            'notes' => 'required|max:500',
+            'hospital_id' => 'required'
         ]);
 
         // Create a new animal.
@@ -69,7 +75,8 @@ class AnimalController extends Controller
             'name' => $request->name,
             'type' => $request->type,
             'veterinarian' => $request->veterinarian,
-            'notes' => $request->notes
+            'notes' => $request->notes,
+            'hospital_id' => $request->hospital_id
         ]);
 
         return to_route('admin.animals.index');
@@ -104,12 +111,18 @@ class AnimalController extends Controller
      */
     public function edit(Animal $animal)
     {
-        // Authorizes admin roles.
-        $admin = Auth::user();
-        $admin->authorizeRoles('admin');
+        $user = Auth::user();
+        $user->authorizeRoles('admin');
 
-        // Return the form for editing an animal.
-        return view('admin.animals.edit')->with('animal', $animal);
+        // dd($animal->hospital->id);
+
+        $hospitals = Hospital::all();
+
+        // return view('admin.animals.edit')->with('animal', $animal);
+        return view('admin.animals.edit', [
+            'animal' => $animal,
+            'hospitals' => $hospitals
+        ]);
     }
 
     /**
@@ -127,10 +140,11 @@ class AnimalController extends Controller
 
         // Validates if the request is valid.
         $request->validate([
-            'name' => 'required|max:100',
-            'type' => 'required|max:100',
-            'veterinarian' => 'required|max:100',
-            'notes' => 'required|max:500'
+            'name' => 'required',
+            'type' => 'required',
+            'veterinarian' => 'required',
+            'notes' => 'required|max:500',
+            'hospital_id' => 'required'
         ]);
 
         // Updates the animal's information.
@@ -138,7 +152,8 @@ class AnimalController extends Controller
             'name' => $request->name,
             'type' => $request->type,
             'veterinarian' => $request->veterinarian,
-            'notes' => $request->notes
+            'notes' => $request->notes,
+            'hospital_id' => $request->hospital_id
         ]);
 
         // Returns to the single animal page (with the updated data).

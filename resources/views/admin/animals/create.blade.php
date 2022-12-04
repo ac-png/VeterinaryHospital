@@ -23,17 +23,27 @@
                         type="text"
                         name="type"
                         field="type"
-                        placeholder="Type..."
-                        class="w-full mt-6"
-                        :value="@old('type')"></x-text-input>
+                        placeholder="Type"
+                        class="w-full mt-6"></x-text-input>
 
                     <x-text-input
                         type="text"
                         name="veterinarian"
                         field="veterinarian"
-                        placeholder="Veterinarian..."
+                        placeholder="Veterinarian"
                         class="w-full mt-6"
                         :value="@old('veterinarian')"></x-text-input>
+                        
+                    <div class="w-full mt-6">
+                        <label for="hospital">Hospital</label>
+                        <select name="hospital_id">
+                            @foreach ($hospitals as $hospital)
+                            <option value="{{$hospital->id}}" {{(old('hospital_id') == $hospital->id) ? "selected" : ""}}>
+                                {{$hospital->name}}
+                            </option>
+                            @endforeach
+                        </select>
+                    </div>
 
                     <x-textarea
                         name="notes"
@@ -45,7 +55,7 @@
 
                     <x-primary-button class="mt-6">Save Animal</x-primary-button>
                 </form>
+                </div>
             </div>
-        </div>
     </div>
 </x-app-layout>
