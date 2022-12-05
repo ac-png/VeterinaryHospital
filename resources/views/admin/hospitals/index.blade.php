@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Hospitals') }}
+            {{ __('All Hospitals') }}
         </h2>
     </x-slot>
 
@@ -24,6 +24,7 @@
             @empty
             <p>You have no hospitals yet.</p>
             @endforelse
+            {{-- {{$hospitals->links()}} --}}
         </div>
     </div>
 </x-app-layout>

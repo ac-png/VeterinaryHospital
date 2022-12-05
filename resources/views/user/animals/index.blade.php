@@ -25,7 +25,7 @@
             @empty
             <p>No animals</p>
             @endforelse
-            {{-- {{$animals->links()}} --}}
+            {{$animals->links()}}
         </div>
     </div>
 </x-app-layout>

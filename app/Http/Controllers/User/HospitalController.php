@@ -61,7 +61,7 @@ class HospitalController extends Controller
         $hospital = Hospital::where('uuid', $uuid)->firstOrFail();
 
         // Returns to the single animal page.
-        return view('admin.hospitals.show')->with('hospital', $hospital);
+        return view('user.hospitals.show')->with('hospital', $hospital);
     }
 
     /**

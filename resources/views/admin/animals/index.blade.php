@@ -11,7 +11,7 @@
             <x-alert-success>
                 {{ session('success') }}
             </x-alert-success>
-            <a href="{{ route('admin.animals.create') }}" class="btn-link btn-lg mb-2">Add a Animal</a>
+            <a href="{{ route('admin.animals.create') }}" class="btn-link btn-lg mb-2">+ New Animal</a>
             @forelse ($animals as $animal)
                 <div class="my-6 p-6 bg-white border-b border-gray-200 shadow-sm sm:rounded-lg">
                     <h2 class="font-bold text-2xl">
@@ -26,7 +26,7 @@
             @empty
             <p>No animals</p>
             @endforelse
-            {{-- {{$animals->links()}} --}}
+            {{$animals->links()}}
         </div>
     </div>
 </x-app-layout>

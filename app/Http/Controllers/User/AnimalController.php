@@ -78,7 +78,7 @@ class AnimalController extends Controller
         $animal = Animal::where('uuid', $uuid)->firstOrFail();
 
         // Returns to the single animal page.
-        return view('admin.animals.show')->with('animal', $animal);
+        return view('user.animals.show')->with('animal', $animal);
     }
 
     /**
