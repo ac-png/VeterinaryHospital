@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Hospital;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 
 class HospitalController extends Controller
 {
@@ -33,7 +34,11 @@ class HospitalController extends Controller
      */
     public function create()
     {
-        //
+        // Authorizes admin roles.
+        $admin = Auth::user();
+        $admin->authorizeRoles('admin');
+
+        return view('admin.hospitals.create');
     }
 
     /**
@@ -44,7 +49,24 @@ class HospitalController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // Authorizes admin roles.
+        $admin = Auth::user();
+        $admin->authorizeRoles('admin');
+
+        // Validates if the request is valid.
+        $request->validate([
+            'name' => 'required',
+            'address' => 'required|max:250'
+        ]);
+
+        // Create a new hospital.
+        Hospital::create([
+            'uuid' => Str::uuid(),
+            'name' => $request->name,
+            'address' => $request->address
+        ]);
+
+        return to_route('admin.hospitals.index');
     }
 
     /**
@@ -53,7 +75,7 @@ class HospitalController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Hospital $hospital)
+    public function show($uuid)
     {
         // Authorizes admin roles.
         $admin = Auth::user();
@@ -63,6 +85,8 @@ class HospitalController extends Controller
         if (!Auth::id()) {
             return abort(403);
         }
+
+        $hospital = Hospital::where('uuid', $uuid)->firstOrFail();
 
         // Returns to the single hospital page.
         return view('admin.hospitals.show')->with('hospital', $hospital);
@@ -74,9 +98,17 @@ class HospitalController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Hospital $hospital)
     {
-        //
+        $user = Auth::user();
+        $user->authorizeRoles('admin');
+
+        // dd($hospital->hospital->id);
+
+        $hospitals = Hospital::all();
+
+        // return view('admin.hospitals.edit')->with('hospital', $hospital);
+        return view('admin.hospitals.edit')->with('hospital', $hospital);
     }
 
     /**
@@ -97,8 +129,16 @@ class HospitalController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Hospital $hospital)
     {
-        //
+        // Authorizes admin roles.
+        $admin = Auth::user();
+        $admin->authorizeRoles('admin');
+
+        // Deletes the hospital.
+        $hospital->delete();
+
+        // Returns to the page with the hospitals (without the deleted note).
+        return to_route('admin.hospitals.index')->with('success', 'Hospital deleted successfully');
     }
 }

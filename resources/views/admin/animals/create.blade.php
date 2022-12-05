@@ -55,7 +55,7 @@
 
                     <x-primary-button class="mt-6">Save Animal</x-primary-button>
                 </form>
-                </div>
             </div>
+        </div>
     </div>
 </x-app-layout>

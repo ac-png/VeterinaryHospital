@@ -88,7 +88,7 @@ class AnimalController extends Controller
      * @param  \App\Models\Animal  $animal
      * @return \Illuminate\Http\Response
      */
-    public function show(Animal $animal)
+    public function show($uuid)
     {
         // Authorizes admin roles.
         $admin = Auth::user();
@@ -98,6 +98,8 @@ class AnimalController extends Controller
         if (!Auth::id()) {
             return abort(403);
         }
+
+        $animal = Animal::where('uuid', $uuid)->firstOrFail();
 
         // Returns to the single animal page.
         return view('admin.animals.show')->with('animal', $animal);

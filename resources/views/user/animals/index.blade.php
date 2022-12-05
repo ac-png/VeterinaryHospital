@@ -14,22 +14,18 @@
             @forelse ($animals as $animal)
                 <div class="my-6 p-6 bg-white border-b border-gray-200 shadow-sm sm:rounded-lg">
                     <h2 class="font-bold text-2xl">
-                    <a href="{{ route('user.animals.show', $animal) }}"> <strong>{{ $animal->name }}</strong></a>
+                    <a href="{{ route('user.animals.show', $animal->uuid) }}"> <strong>{{ $animal->name }}</strong></a>
                     </h2>
-                    <p class="mt-2">
-
-                        <h3 class="font-bold text-1xl"> <strong>Hospital Name </strong>
-                        {{$animal->hospital->name}} </h3>
-                        {{$animal->notes}}
-
-                    </p>
+                    <p class="mt-2">Type: {{$animal->type}}</p>
+                    <p class="mt-2">Veterinarian: {{$animal->veterinarian}}</p>
+                    <p class="mt-2">Hospital Name: {{$animal->hospital->name}}</p>
                     <span class="block mt-4 text-sm opacity-70">{{ $animal->updated_at->diffForHumans() }}</span>
 
                 </div>
             @empty
             <p>No animals</p>
             @endforelse
-            {{-- {{$animals->links()}} --}}
+            {{$animals->links()}}
         </div>
     </div>
 </x-app-layout>

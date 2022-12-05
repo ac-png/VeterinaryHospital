@@ -16,7 +16,7 @@ class HospitalSeeder extends Seeder
     {
         // Creates 2 new hospitals (using the fake data).
         Hospital::factory()
-            ->times(3)
+            ->times(5)
             ->hasBooks(4)
             ->create();
     }

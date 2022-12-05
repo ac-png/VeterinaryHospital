@@ -68,12 +68,14 @@ class AnimalController extends Controller
      * @param  \App\Models\Animal  $animal
      * @return \Illuminate\Http\Response
      */
-    public function show(Animal $animal)
+    public function show($uuid)
     {
-        // If the id of the user does not mathch the note's user_id, returns a error screen.
+        // If the id of the admin does not mathch the note's admin_id, returns a error screen.
         if (!Auth::id()) {
             return abort(403);
         }
+
+        $animal = Animal::where('uuid', $uuid)->firstOrFail();
 
         // Returns to the single animal page.
         return view('user.animals.show')->with('animal', $animal);
