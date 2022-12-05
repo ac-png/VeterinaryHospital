@@ -15,7 +15,7 @@
             @forelse ($animals as $animal)
                 <div class="my-6 p-6 bg-white border-b border-gray-200 shadow-sm sm:rounded-lg">
                     <h2 class="font-bold text-2xl">
-                    <a href="{{ route('admin.animals.show', $animal) }}"> <strong>{{ $animal->name }}</strong></a>
+                    <a href="{{ route('admin.animals.show', $note->animal) }}"> <strong>{{ $animal->name }}</strong></a>
                     </h2>
                     <p class="mt-2">
 

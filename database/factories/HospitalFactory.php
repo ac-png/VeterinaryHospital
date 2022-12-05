@@ -18,6 +18,7 @@ class HospitalFactory extends Factory
     {
         // Generates fake data for Hospitals table.
         return [
+            'uuid' => $this->faker->uuid(),
             'name' => $this->faker->name,
             'address' => $this->faker->text(5),
             'created_at' => $this->faker->date,

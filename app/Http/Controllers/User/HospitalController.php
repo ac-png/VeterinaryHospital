@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
 use App\Models\Hospital;
@@ -16,14 +16,12 @@ class HospitalController extends Controller
      */
     public function index()
     {
-        // Authorizes admin roles.
-        $admin = Auth::user();
-        $admin->authorizeRoles('admin');
 
-        $hospitals = Hospital::all();
+        // Sorts the hospitals so the most recent updated_at is on top.
+        $hospitals = Hospital::latest('updated_at')->paginate(5);
 
         // Returns to the page with all the hospitals.
-        return view('admin.hospitals.index')->with('hospitals', $hospitals);
+        return view('user.hospitals.index')->with('hospitals', $hospitals);
     }
 
     /**
@@ -55,17 +53,13 @@ class HospitalController extends Controller
      */
     public function show(Hospital $hospital)
     {
-        // Authorizes admin roles.
-        $admin = Auth::user();
-        $admin->authorizeRoles('admin');
-
         // If the id of the admin does not mathch the note's admin_id, returns a error screen.
         if (!Auth::id()) {
             return abort(403);
         }
 
         // Returns to the single hospital page.
-        return view('admin.hospitals.show')->with('hospital', $hospital);
+        return view('user.hospitals.show')->with('hospital', $hospital);
     }
 
     /**
