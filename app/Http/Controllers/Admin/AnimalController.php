@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Animal;
 use App\Models\Hospital;
+use Database\Seeders\AnimalSeeder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
@@ -88,7 +89,7 @@ class AnimalController extends Controller
      * @param  \App\Models\Animal  $animal
      * @return \Illuminate\Http\Response
      */
-    public function show(Animal $animal)
+    public function show($uuid)
     {
         // Authorizes admin roles.
         $admin = Auth::user();
@@ -98,6 +99,8 @@ class AnimalController extends Controller
         if (!Auth::id()) {
             return abort(403);
         }
+
+        $animal = Animal::where('uuid', $uuid)->firstOrFail();
 
         // Returns to the single animal page.
         return view('admin.animals.show')->with('animal', $animal);

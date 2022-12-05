@@ -53,7 +53,7 @@ class HospitalController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Hospital $hospital)
+    public function show($uuid)
     {
         // Authorizes admin roles.
         $admin = Auth::user();
@@ -64,7 +64,9 @@ class HospitalController extends Controller
             return abort(403);
         }
 
-        // Returns to the single hospital page.
+        $hospital = Hospital::where('uuid', $uuid)->firstOrFail();
+
+        // Returns to the single animal page.
         return view('admin.hospitals.show')->with('hospital', $hospital);
     }
 

@@ -51,15 +51,17 @@ class HospitalController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Hospital $hospital)
+    public function show($uuid)
     {
         // If the id of the admin does not mathch the note's admin_id, returns a error screen.
         if (!Auth::id()) {
             return abort(403);
         }
 
-        // Returns to the single hospital page.
-        return view('user.hospitals.show')->with('hospital', $hospital);
+        $hospital = Hospital::where('uuid', $uuid)->firstOrFail();
+
+        // Returns to the single animal page.
+        return view('admin.hospitals.show')->with('hospital', $hospital);
     }
 
     /**
