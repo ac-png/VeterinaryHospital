@@ -39,4 +39,17 @@ class HomeController extends Controller
         }
         return redirect()->route($home);
     }
+
+    public function hospitalIndex(Request $request)
+    {
+        $user = Auth::user();
+        $home = 'home';
+
+        if ($user->hasRole('admin')) {
+            $home = 'admin.hospitals.index';
+        } else if ($user->hasRole('user')) {
+            $home = 'user.hospitals.index';
+        }
+        return redirect()->route($home);
+    }
 }
