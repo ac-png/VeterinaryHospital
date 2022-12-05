@@ -21,7 +21,7 @@ class HospitalController extends Controller
         $admin = Auth::user();
         $admin->authorizeRoles('admin');
 
-        $hospitals = Hospital::all();
+        $hospitals = Hospital::latest('updated_at')->paginate(5);
 
         // Returns to the page with all the hospitals.
         return view('admin.hospitals.index')->with('hospitals', $hospitals);

@@ -137,8 +137,8 @@ class AnimalController extends Controller
     public function update(Request $request, Animal $animal)
     {
         // Authorizes admin roles.
-        $admin = Auth::user();
-        $admin->authorizeRoles('admin');
+        $user = Auth::user();
+        $user->authorizeRoles('admin');
 
         // Validates if the request is valid.
         $request->validate([
