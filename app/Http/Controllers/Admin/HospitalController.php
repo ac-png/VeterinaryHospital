@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Animal;
 use App\Models\Hospital;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -21,7 +22,7 @@ class HospitalController extends Controller
         $admin = Auth::user();
         $admin->authorizeRoles('admin');
 
-        $hospitals = Hospital::all();
+        $hospitals = Hospital::latest('updated_at')->paginate(5);
 
         // Returns to the page with all the hospitals.
         return view('admin.hospitals.index')->with('hospitals', $hospitals);
@@ -66,7 +67,7 @@ class HospitalController extends Controller
             'address' => $request->address
         ]);
 
-        return to_route('admin.hospitals.index');
+        return to_route('admin.hospitals.index')->with('success', 'Hospital created successfully');
     }
 
     /**
@@ -118,9 +119,26 @@ class HospitalController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Hospital $hospital)
     {
-        //
+        // Authorizes admin roles.
+        $user = Auth::user();
+        $user->authorizeRoles('admin');
+
+        // Validates if the request is valid.
+        $request->validate([
+            'name' => 'required',
+            'address' => 'required|max:250'
+        ]);
+
+        // Updates the hospital's information.
+        $hospital->update([
+            'name' => $request->name,
+            'address' => $request->address
+        ]);
+
+        // Returns to the single hospital page (with the updated data).
+        return to_route('admin.hospitals.show', $hospital->uuid)->with('success', 'Hospital updated successfully');
     }
 
     /**
@@ -136,9 +154,19 @@ class HospitalController extends Controller
         $admin->authorizeRoles('admin');
 
         // Deletes the hospital.
-        $hospital->delete();
-
-        // Returns to the page with the hospitals (without the deleted note).
-        return to_route('admin.hospitals.index')->with('success', 'Hospital deleted successfully');
+        $new_hospital = Hospital::where('id', '!=', $hospital->id)->first();
+        if ($new_hospital) {
+            $animals = $hospital->animals;
+            foreach ($animals as $animal) {
+                $animal->hospital_id = $new_hospital->id;
+                $animal->save();
+            };
+            $hospital->delete();
+            // Returns to the page with the hospitals (without the deleted note).
+            return to_route('admin.hospitals.index')->with('success', 'Hospital deleted successfully');
+        } else {
+            // Returns to the page with the hospitals (without the deleted note).
+            return to_route('admin.hospitals.index')->with('failure', 'This hospital can not be deleted!');
+        }
     }
 }

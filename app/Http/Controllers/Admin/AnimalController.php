@@ -137,8 +137,8 @@ class AnimalController extends Controller
     public function update(Request $request, Animal $animal)
     {
         // Authorizes admin roles.
-        $admin = Auth::user();
-        $admin->authorizeRoles('admin');
+        $user = Auth::user();
+        $user->authorizeRoles('admin');
 
         // Validates if the request is valid.
         $request->validate([
@@ -159,7 +159,7 @@ class AnimalController extends Controller
         ]);
 
         // Returns to the single animal page (with the updated data).
-        return to_route('admin.animals.show', $animal)->with('success', 'Animal updated successfully');
+        return to_route('admin.animals.show', $animal->uuid)->with('success', 'Animal updated successfully');
     }
 
     /**

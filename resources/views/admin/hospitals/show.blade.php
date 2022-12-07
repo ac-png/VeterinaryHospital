@@ -22,7 +22,7 @@
             <h2 class="font-bold text-4xl">
                 {{ $hospital->name }}
             </h2>
-            <p class="mt-6 whitespace-">{{$hospital->address}}</p>
+            <p class="mt-6 whitespace-">Address: {{$hospital->address}}</p>
         </div>
     </div>
 </x-app-layout>

@@ -23,8 +23,8 @@ class AnimalFactory extends Factory
             'type' => $this->faker->word,
             'notes' => $this->faker->text(200),
             'veterinarian' => $this->faker->name,
-            'created_at' => $this->faker->date,
-            'updated_at' => $this->faker->date
+            'created_at' => $this->faker->dateTimeBetween($startDate = '-5 years', $endDate = 'now'),
+            'updated_at' => $this->faker->dateTimeBetween($startDate = '-5 years', $endDate = 'now')
         ];
     }
 }
