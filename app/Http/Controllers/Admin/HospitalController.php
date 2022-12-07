@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Animal;
 use App\Models\Hospital;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -66,7 +67,7 @@ class HospitalController extends Controller
             'address' => $request->address
         ]);
 
-        return to_route('admin.hospitals.index');
+        return to_route('admin.hospitals.index')->with('success', 'Hospital created successfully');
     }
 
     /**
@@ -153,9 +154,19 @@ class HospitalController extends Controller
         $admin->authorizeRoles('admin');
 
         // Deletes the hospital.
-        $hospital->delete();
-
-        // Returns to the page with the hospitals (without the deleted note).
-        return to_route('admin.hospitals.index')->with('success', 'Hospital deleted successfully');
+        $new_hospital = Hospital::where('id', '!=', $hospital->id)->first();
+        if ($new_hospital) {
+            $animals = $hospital->animals;
+            foreach ($animals as $animal) {
+                $animal->hospital_id = $new_hospital->id;
+                $animal->save();
+            };
+            $hospital->delete();
+            // Returns to the page with the hospitals (without the deleted note).
+            return to_route('admin.hospitals.index')->with('success', 'Hospital deleted successfully');
+        } else {
+            // Returns to the page with the hospitals (without the deleted note).
+            return to_route('admin.hospitals.index')->with('failure', 'This hospital can not be deleted!');
+        }
     }
 }

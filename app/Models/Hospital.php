@@ -7,10 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Hospital extends Model
 {
+    protected $guarded = [];
     use HasFactory;
-    protected $fillable = ['uuid', 'name', 'address'];
 
-    public function books()
+    public function animals()
     {
         return $this->hasMany(Animal::class);
     }

@@ -10,6 +10,9 @@
             <x-alert-success>
                 {{ session('success') }}
             </x-alert-success>
+            <x-alert-failure>
+                {{ session('failure') }}
+            </x-alert-failure>
             <a href="{{ route('admin.hospitals.create') }}" class="btn-link btn-lg mb-2">+ New Hospital</a>
             @forelse ($hospitals as $hospital)
                 <div class="my-6 p-6 bg-white border-b border-gray-200 shadow-sm sm:rounded-lg">
