@@ -159,7 +159,7 @@ class AnimalController extends Controller
         ]);
 
         // Returns to the single animal page (with the updated data).
-        return to_route('admin.animals.show', $animal)->with('success', 'Animal updated successfully');
+        return to_route('admin.animals.show', $animal->uuid)->with('success', 'Animal updated successfully');
     }
 
     /**

@@ -24,7 +24,7 @@
             @empty
             <p>You have no hospitals yet.</p>
             @endforelse
-            {{-- {{$hospitals->links()}} --}}
+            {{$hospitals->links()}}
         </div>
     </div>
 </x-app-layout>

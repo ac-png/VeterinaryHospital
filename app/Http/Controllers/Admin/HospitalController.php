@@ -118,9 +118,26 @@ class HospitalController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Hospital $hospital)
     {
-        //
+        // Authorizes admin roles.
+        $user = Auth::user();
+        $user->authorizeRoles('admin');
+
+        // Validates if the request is valid.
+        $request->validate([
+            'name' => 'required',
+            'address' => 'required|max:250'
+        ]);
+
+        // Updates the hospital's information.
+        $hospital->update([
+            'name' => $request->name,
+            'address' => $request->address
+        ]);
+
+        // Returns to the single hospital page (with the updated data).
+        return to_route('admin.hospitals.show', $hospital->uuid)->with('success', 'Hospital updated successfully');
     }
 
     /**
