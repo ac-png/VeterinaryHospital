@@ -52,4 +52,17 @@ class HomeController extends Controller
         }
         return redirect()->route($home);
     }
+
+    public function veterinarianIndex(Request $request)
+    {
+        $user = Auth::user();
+        $home = 'home';
+
+        if ($user->hasRole('admin')) {
+            $home = 'admin.veterinarians.index';
+        } else if ($user->hasRole('user')) {
+            $home = 'user.veterinarians.index';
+        }
+        return redirect()->route($home);
+    }
 }

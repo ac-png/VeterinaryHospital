@@ -17,6 +17,7 @@ class VeterinarianFactory extends Factory
     public function definition()
     {
         return [
+            'uuid' => $this->faker->uuid(),
             'name' => $this->faker->name,
             'address' => $this->faker->address,
             'bio' => $this->faker->realText

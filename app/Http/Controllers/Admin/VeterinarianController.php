@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Veterinarian;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
 class VeterinarianController extends Controller
@@ -14,7 +16,15 @@ class VeterinarianController extends Controller
      */
     public function index()
     {
-        //
+        // Authorizes admin roles.
+        $admin = Auth::user();
+        $admin->authorizeRoles('admin');
+
+        // Sorts the veterinarians so the most recent updated_at is on top.
+        $veterinarians = Veterinarian::latest('updated_at')->paginate(5);
+
+        // Returns to the page with all the veterinarians.
+        return view('admin.veterinarians.index')->with('veterinarians', $veterinarians);
     }
 
     /**
@@ -44,9 +54,21 @@ class VeterinarianController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($uuid)
     {
-        //
+        // Authorizes admin roles.
+        $admin = Auth::user();
+        $admin->authorizeRoles('admin');
+
+        // If the id of the admin does not mathch the note's admin_id, returns a error screen.
+        if (!Auth::id()) {
+            return abort(403);
+        }
+
+        $veterinarian = Veterinarian::where('uuid', $uuid)->firstOrFail();
+
+        // Returns to the single veterinarian page.
+        return view('admin.veterinarians.show')->with('veterinarian', $veterinarian);
     }
 
     /**
