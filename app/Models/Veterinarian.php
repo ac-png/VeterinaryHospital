@@ -8,4 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class Veterinarian extends Model
 {
     use HasFactory;
+
+    public function animals()
+    {
+        return $this->belongsToMany('App\Models\Animal', 'veterinarian_animal');
+    }
 }

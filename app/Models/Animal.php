@@ -14,4 +14,8 @@ class Animal extends Model
     {
         return $this->belongsTo(Hospital::class);
     }
+    public function veterinarians()
+    {
+        return $this->belongsToMany('App\Models\Veterinarian', 'veterinarian_animal');
+    }
 }

@@ -2,7 +2,8 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Veterinarian;
+use App\Models\Animal;
 use Illuminate\Database\Seeder;
 
 class VeterinarianSeeder extends Seeder
@@ -14,6 +15,13 @@ class VeterinarianSeeder extends Seeder
      */
     public function run()
     {
-        //
+        Veterinarian::factory()
+            ->times(3)
+            ->create();
+
+        foreach (Animal::all() as $animal) {
+            $veterinarians = Veterinarian::inRandomOrder()->take(rand(1, 3))->pluck('id');
+            $animal->veterinarians()->attach($veterinarians);
+        }
     }
 }
