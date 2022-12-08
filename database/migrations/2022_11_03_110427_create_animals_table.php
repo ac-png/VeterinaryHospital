@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('type');
             $table->text('notes');
-            $table->string('veterinarian');
+            // $table->string('veterinarian');
             $table->timestamps();
         });
     }

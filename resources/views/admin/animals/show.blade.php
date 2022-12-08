@@ -27,6 +27,11 @@
                 <p class="mt-6 whitespace-">Notes: {{ $animal->notes }}</p>
                 <p class="mt-6 whitespace-">Hospital Name: {{ $animal->hospital->name }}</p>
                 <p class="mt-6 whitespace-">Hospital Address: {{ $animal->hospital->address }}</p>
+                <p class="mt-6 whitespace-">Veterinarian:
+                    @foreach ($animal->veterinarians as $veterinarian)
+                        {{$veterinarian->name}}
+                     @endforeach
+                </p>
             </div>
         </div>
     </div>

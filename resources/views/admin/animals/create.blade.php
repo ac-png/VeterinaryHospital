@@ -24,18 +24,11 @@
                         name="type"
                         field="type"
                         placeholder="Type"
-                        class="w-full mt-6"></x-text-input>
-
-                    <x-text-input
-                        type="text"
-                        name="veterinarian"
-                        field="veterinarian"
-                        placeholder="Veterinarian"
                         class="w-full mt-6"
-                        :value="@old('veterinarian')"></x-text-input>
+                        :value="@old('type')"></x-text-input>
                         
                     <div class="w-full mt-6">
-                        <label for="hospital">Hospital</label>
+                        <label for="hospital">Hospital: </label>
                         <select name="hospital_id">
                             @foreach ($hospitals as $hospital)
                             <option value="{{$hospital->id}}" {{(old('hospital_id') == $hospital->id) ? "selected" : ""}}>
@@ -43,6 +36,14 @@
                             </option>
                             @endforeach
                         </select>
+                    </div>
+                    
+                    <div class="w-full mt-6">
+                        <label for="veterinarians">Veterinarian: </label>
+                        @foreach ($veterinarians as $veterinarian)
+                            <input type="checkbox", value="if in">
+                           {{$veterinarian->name}}
+                        @endforeach
                     </div>
 
                     <x-textarea

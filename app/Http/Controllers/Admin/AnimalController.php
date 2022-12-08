@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Animal;
 use App\Models\Hospital;
+use App\Models\Veterinarian;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
@@ -42,8 +43,9 @@ class AnimalController extends Controller
         $admin->authorizeRoles('admin');
 
         $hospitals = Hospital::all();
+        $veterinarians = Veterinarian::all();
 
-        return view('admin.animals.create')->with('hospitals', $hospitals);
+        return view('admin.animals.create')->with('hospitals', $hospitals)->with('veterinarians', $veterinarians);;
 
         return view('admin.animals.create');
     }
@@ -66,18 +68,21 @@ class AnimalController extends Controller
             'type' => 'required',
             'veterinarian' => 'required',
             'notes' => 'required|max:500',
-            'hospital_id' => 'required'
+            'hospital_id' => 'required',
+            'veterinarians' => ['required', 'exists:veterinarians,id']
         ]);
 
         // Create a new animal.
-        Animal::create([
+        $animal = Animal::create([
             'uuid' => Str::uuid(),
             'name' => $request->name,
             'type' => $request->type,
-            'veterinarian' => $request->veterinarian,
+            // 'veterinarian' => $request->veterinarian,
             'notes' => $request->notes,
             'hospital_id' => $request->hospital_id
         ]);
+
+        $animal->veterinarians()->attach($request->veterinarians);
 
         return to_route('admin.animals.index');
     }
@@ -117,7 +122,6 @@ class AnimalController extends Controller
         $user->authorizeRoles('admin');
 
         // dd($animal->hospital->id);
-
         $hospitals = Hospital::all();
 
         // return view('admin.animals.edit')->with('animal', $animal);
@@ -146,14 +150,14 @@ class AnimalController extends Controller
             'type' => 'required',
             'veterinarian' => 'required',
             'notes' => 'required|max:500',
-            'hospital_id' => 'required'
+            'hospital_id' => 'required',
         ]);
 
         // Updates the animal's information.
         $animal->update([
             'name' => $request->name,
             'type' => $request->type,
-            'veterinarian' => $request->veterinarian,
+            // 'veterinarian' => $request->veterinarian,
             'notes' => $request->notes,
             'hospital_id' => $request->hospital_id
         ]);

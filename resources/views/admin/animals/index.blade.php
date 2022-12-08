@@ -17,9 +17,7 @@
                     <h2 class="font-bold text-2xl">
                     <a href="{{ route('admin.animals.show', $animal->uuid) }}"> <strong>{{ $animal->name }}</strong></a>
                     </h2>
-                    <p class="mt-2">Type: {{$animal->type}}</p>
-                    <p class="mt-2">Veterinarian: {{$animal->veterinarian}}</p>
-                    <p class="mt-2">Hospital Name: {{$animal->hospital->name}}</p>
+                    <p class="mt-2">{{$animal->notes}}</p>
                     <span class="block mt-4 text-sm opacity-70">{{ $animal->updated_at->diffForHumans() }}</span>
 
                 </div>
