@@ -12,6 +12,7 @@ class Hospital extends Model
 
     public function animals()
     {
+        // One-to-many relationship between Hospital and Animal.
         return $this->hasMany(Animal::class);
     }
 }

@@ -12,6 +12,7 @@ class Veterinarian extends Model
 
     public function animals()
     {
+        // Many-to-many relationship between Veterinarian and Animal.
         return $this->belongsToMany('App\Models\Animal', 'veterinarian_animal');
     }
 }
