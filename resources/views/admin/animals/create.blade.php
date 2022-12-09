@@ -39,13 +39,13 @@
                     </div>
                     
                     <div class="w-full mt-6">
-                        <label for="veterinarians">Veterinarian: </label>
+                        <label for="veterinarians">Veterinarians:</label>
                         @foreach ($veterinarians as $veterinarian)
-                            <input type="checkbox", value="if in">
+                            <input type="checkbox" value="{{$veterinarian->id}}" name="veterinarians[]">
                            {{$veterinarian->name}}
                         @endforeach
                     </div>
-
+                    
                     <x-textarea
                         name="notes"
                         rows="10"

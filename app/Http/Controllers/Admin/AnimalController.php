@@ -45,7 +45,7 @@ class AnimalController extends Controller
         $hospitals = Hospital::all();
         $veterinarians = Veterinarian::all();
 
-        return view('admin.animals.create')->with('hospitals', $hospitals)->with('veterinarians', $veterinarians);;
+        return view('admin.animals.create')->with('hospitals', $hospitals)->with('veterinarians', $veterinarians);
 
         return view('admin.animals.create');
     }
@@ -62,11 +62,13 @@ class AnimalController extends Controller
         $admin = Auth::user();
         $admin->authorizeRoles('admin');
 
+        //   dd($request->veterinarians);
+
         // Validates if the request is valid.
         $request->validate([
             'name' => 'required',
             'type' => 'required',
-            'veterinarian' => 'required',
+            // 'veterinarian' => 'required',
             'notes' => 'required|max:500',
             'hospital_id' => 'required',
             'veterinarians' => ['required', 'exists:veterinarians,id']
@@ -77,12 +79,12 @@ class AnimalController extends Controller
             'uuid' => Str::uuid(),
             'name' => $request->name,
             'type' => $request->type,
-            // 'veterinarian' => $request->veterinarian,
+            'veterinarian' => $request->veterinarian,
             'notes' => $request->notes,
             'hospital_id' => $request->hospital_id
         ]);
 
-        $animal->veterinarians()->attach($request->veterinarians);
+        // $animal->veterinarians()->attach($request->veterinarians);
 
         return to_route('admin.animals.index');
     }
@@ -123,11 +125,13 @@ class AnimalController extends Controller
 
         // dd($animal->hospital->id);
         $hospitals = Hospital::all();
+        $veterinarians = Veterinarian::all();
 
         // return view('admin.animals.edit')->with('animal', $animal);
         return view('admin.animals.edit', [
             'animal' => $animal,
-            'hospitals' => $hospitals
+            'hospitals' => $hospitals,
+            'veterinarians' => $veterinarians
         ]);
     }
 
@@ -148,9 +152,10 @@ class AnimalController extends Controller
         $request->validate([
             'name' => 'required',
             'type' => 'required',
-            'veterinarian' => 'required',
+            // 'veterinarian' => 'required',
             'notes' => 'required|max:500',
             'hospital_id' => 'required',
+            'veterinarians' => ['required', 'exists:veterinarians,id']
         ]);
 
         // Updates the animal's information.
