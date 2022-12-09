@@ -10,15 +10,21 @@
                     </a>
                 </div>
 
-                <!-- Navigation Links -->
+                <!-- Animals Link -->
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                     <x-nav-link :href="route('home.index')" :active="request()->routeIs('home.index')">
                         {{ __('Animals') }}
                     </x-nav-link>
-                <!-- Pubislisher Links -->
+                <!-- Hospitals Link -->
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                     <x-nav-link :href="route('home.hospital.index')" :active="request()->routeIs('home.hospital.index')">
                         {{ __('Hospitals') }}
+                    </x-nav-link>
+                </div>
+                <!-- Veterinarians Link -->
+                <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                    <x-nav-link :href="route('home.veterinarian.index')" :active="request()->routeIs('home.veterinarian.index')">
+                        {{ __('Veterinarians') }}
                     </x-nav-link>
                 </div>
             </div>

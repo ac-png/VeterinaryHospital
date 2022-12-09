@@ -54,9 +54,9 @@
                     </div>
 
                     <div class="w-full mt-6">
-                        <label for="veterinarians">Veterinarian</label>
+                        <label for="veterinarians">Veterinarians:</label>
                         @foreach ($veterinarians as $veterinarian)
-                            <input type="checkbox", value="{{$veterinarian->id}}" name="veterinarians[]">
+                            <input type="checkbox" value="{{$veterinarian->id}}">
                            {{$veterinarian->name}}
                         @endforeach
                     </div>
