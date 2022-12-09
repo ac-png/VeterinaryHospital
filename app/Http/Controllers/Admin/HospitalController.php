@@ -66,6 +66,7 @@ class HospitalController extends Controller
             'address' => $request->address
         ]);
 
+        // Shows the form for creating a new animals (with success alert).
         return to_route('admin.hospitals.index')->with('success', 'Hospital created successfully');
     }
 
@@ -86,6 +87,7 @@ class HospitalController extends Controller
             return abort(403);
         }
 
+        // Finds a hospital by uuid.
         $hospital = Hospital::where('uuid', $uuid)->firstOrFail();
 
         // Returns to the single hospital page.
@@ -105,6 +107,7 @@ class HospitalController extends Controller
 
         // dd($hospital->hospital->id);
 
+        // Getting the hospitals.
         $hospitals = Hospital::all();
 
         // return view('admin.hospitals.edit')->with('hospital', $hospital);

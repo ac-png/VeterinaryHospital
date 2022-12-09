@@ -20,7 +20,7 @@ class AnimalController extends Controller
      */
     public function index()
     {
-        // Authorizes admin roles.
+        // Authorizes admin role.
         $admin = Auth::user();
         $admin->authorizeRoles('admin');
 
@@ -42,9 +42,13 @@ class AnimalController extends Controller
         $admin = Auth::user();
         $admin->authorizeRoles('admin');
 
+
+        // Gets all the Hospitals.
         $hospitals = Hospital::all();
+        // Gets all the Veterinarians.
         $veterinarians = Veterinarian::all();
 
+        // Shows the form for creating a new animals (with the hospitals and veterinarians).
         return view('admin.animals.create')->with('hospitals', $hospitals)->with('veterinarians', $veterinarians);
 
         return view('admin.animals.create');
@@ -74,18 +78,19 @@ class AnimalController extends Controller
             'veterinarians' => ['required', 'exists:veterinarians,id']
         ]);
 
-        // Create a new animal.
+        // Creates a new animal.
         $animal = Animal::create([
             'uuid' => Str::uuid(),
             'name' => $request->name,
             'type' => $request->type,
-            'veterinarian' => $request->veterinarian,
+            // 'veterinarian' => $request->veterinarian,
             'notes' => $request->notes,
             'hospital_id' => $request->hospital_id
         ]);
 
-        // $animal->veterinarians()->attach($request->veterinarians);
+        $animal->veterinarians()->attach($request->veterinarians);
 
+        // Shows the page for all the animals.
         return to_route('admin.animals.index');
     }
 
@@ -101,14 +106,15 @@ class AnimalController extends Controller
         $admin = Auth::user();
         $admin->authorizeRoles('admin');
 
-        // If the id of the admin does not mathch the note's admin_id, returns a error screen.
+        // If the id of the admin does not match the note's admin_id, returns a error screen.
         if (!Auth::id()) {
             return abort(403);
         }
 
+        // Finds an animal by uuid.
         $animal = Animal::where('uuid', $uuid)->firstOrFail();
 
-        // Returns to the single animal page.
+        // Shows the page for the animal selected in the index page.
         return view('admin.animals.show')->with('animal', $animal);
     }
 
@@ -120,10 +126,13 @@ class AnimalController extends Controller
      */
     public function edit(Animal $animal)
     {
+        // Authorizes admin role.
         $user = Auth::user();
         $user->authorizeRoles('admin');
 
         // dd($animal->hospital->id);
+
+        // Getting the hospitals and veterinarians.
         $hospitals = Hospital::all();
         $veterinarians = Veterinarian::all();
 
@@ -144,7 +153,7 @@ class AnimalController extends Controller
      */
     public function update(Request $request, Animal $animal)
     {
-        // Authorizes admin roles.
+        // Authorizes admin role.
         $user = Auth::user();
         $user->authorizeRoles('admin');
 
@@ -179,7 +188,7 @@ class AnimalController extends Controller
      */
     public function destroy(Animal $animal)
     {
-        // Authorizes admin roles.
+        // Authorizes admin role.
         $admin = Auth::user();
         $admin->authorizeRoles('admin');
 

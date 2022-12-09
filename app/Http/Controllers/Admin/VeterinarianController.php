@@ -84,7 +84,7 @@ class VeterinarianController extends Controller
         $admin = Auth::user();
         $admin->authorizeRoles('admin');
 
-        // If the id of the admin does not mathch the note's admin_id, returns a error screen.
+        // If the id of the admin does not match the note's admin_id, returns a error screen.
         if (!Auth::id()) {
             return abort(403);
         }
